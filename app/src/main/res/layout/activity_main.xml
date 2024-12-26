@@ -1,19 +1,49 @@
-<?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    android:background="@drawable/background_gradient"
+    android:padding="16dp">
 
+    <!-- Welcome Text -->
     <TextView
+        android:id="@+id/welcomeText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_marginTop="60dp"
+        android:layout_centerHorizontal="true"
+        android:text="Welcome to the Prestige Family"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:fontFamily="sans-serif-medium"
+        android:letterSpacing="0.05"
+        android:textColor="#333333" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <!-- Logo -->
+    <ImageView
+        android:id="@+id/logoImage"
+        android:layout_width="160dp"
+        android:layout_height="160dp"
+        android:layout_below="@id/welcomeText"
+        android:layout_marginTop="24dp"
+        android:layout_centerHorizontal="true"
+        android:contentDescription="Prestige Logo"
+        android:src="@drawable/logo"
+        android:scaleType="fitCenter" />
+
+    <!-- Let's Go Button -->
+    <Button
+        android:id="@+id/letsGoButton"
+        android:layout_width="220dp"
+        android:layout_height="48dp"
+        android:layout_below="@id/logoImage"
+        android:layout_marginTop="40dp"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/golden_button"
+        android:text="Let’s Go"
+        android:textSize="16sp"
+        android:fontFamily="sans-serif-medium"
+        android:letterSpacing="0.05"
+        android:textColor="#FFFFFF"
+        android:elevation="8dp" />
+</RelativeLayout>

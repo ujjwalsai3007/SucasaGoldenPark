@@ -5,7 +5,10 @@ plugins {
 
 android {
     namespace = "com.example.prestige"
-    compileSdk = 34
+    compileSdk = 35
+    buildFeatures {
+        viewBinding=true
+    }
 
     defaultConfig {
         applicationId = "com.example.prestige"
