@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.prestige.databinding.ActivityMainBinding
+import com.google.android.material.textfield.TextInputLayout
 
 
 class MainActivity : AppCompatActivity() {
@@ -23,7 +24,7 @@ class MainActivity : AppCompatActivity() {
         binding.logoImage.startAnimation(animation)
 
         binding.letsGoButton.setOnClickListener {
-            val intent=Intent(this,Login_logup_screen::class.java)
+            val intent=Intent(this,SignUp::class.java)
             startActivity(intent)
         }
 

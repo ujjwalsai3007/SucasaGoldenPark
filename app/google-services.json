@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "434311096929",
+    "project_id": "sucasa-23078",
+    "storage_bucket": "sucasa-23078.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:434311096929:android:dacd70d4924d6c3746d820",
+        "android_client_info": {
+          "package_name": "com.example.prestige"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCkGvxWM1ukGf2y_6qAqrjNFI7Gh8qwM-0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

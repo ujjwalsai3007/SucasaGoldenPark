@@ -5,6 +5,6 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Login_logup_screen">
+    tools:context=".SignIn">
 
 </androidx.constraintlayout.widget.ConstraintLayout>
