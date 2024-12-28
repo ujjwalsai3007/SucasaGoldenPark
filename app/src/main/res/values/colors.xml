@@ -2,4 +2,8 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="purple_500">#6200EE</color> <!-- Example Purple -->
+    <color name="blue_500">#1E88E5</color> <!-- Replace purple with blue -->
+    <color name="green_500">#43A047</color> <!-- Or a green shade -->
+    <color name="ripple_color">#FFCDD2</color> <!-- Example light red ripple -->
 </resources>
