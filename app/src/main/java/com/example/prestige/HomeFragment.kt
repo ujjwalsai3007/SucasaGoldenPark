@@ -12,8 +12,10 @@ import com.google.firebase.database.*
 
 class HomeFragment : Fragment() {
 
-    private lateinit var databaseReference: DatabaseReference
+    private lateinit var securityGuardReference: DatabaseReference
+    private lateinit var cleaningStatusReference: DatabaseReference
     private lateinit var availabilityTextView: TextView
+    private lateinit var apartmentCleanedTextView: TextView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -21,16 +23,19 @@ class HomeFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_home_frgement, container, false)
 
-        // Initialize the TextView
+        // Initialize the TextViews
         availabilityTextView = view.findViewById(R.id.securityGuardAvailability)
+        apartmentCleanedTextView = view.findViewById(R.id.apartmentcleaned)
 
-        // Initialize Firebase Database reference
-        databaseReference = FirebaseDatabase.getInstance().getReference("SecurityGuardStatus")
+        // Initialize Firebase Database references
+        securityGuardReference = FirebaseDatabase.getInstance().getReference("SecurityGuardStatus")
+        cleaningStatusReference = FirebaseDatabase.getInstance().getReference("ApartmentCleaningStatus")
 
-        // Fetch and update security guard availability
+        // Fetch and update data
         fetchSecurityGuardAvailability()
+        fetchApartmentCleaningStatus()
 
-
+        // Handle orders button click
         val ordersButton = view.findViewById<Button>(R.id.ordersButton)
         ordersButton.setOnClickListener {
             parentFragmentManager.beginTransaction()
@@ -42,8 +47,43 @@ class HomeFragment : Fragment() {
         return view
     }
 
+    private fun fetchApartmentCleaningStatus() {
+        cleaningStatusReference.child("isCleaned").addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if (snapshot.exists()) {
+                    val isCleaned = snapshot.getValue(Boolean::class.java) ?: false
+                    if (isCleaned) {
+                        apartmentCleanedTextView.text = "Cleaned"
+                        apartmentCleanedTextView.setTextColor(
+                            resources.getColor(
+                                android.R.color.holo_green_dark,
+                                null
+                            )
+                        )
+                    } else {
+                        apartmentCleanedTextView.text = "Uncleaned"
+                        apartmentCleanedTextView.setTextColor(
+                            resources.getColor(
+                                android.R.color.holo_red_dark,
+                                null
+                            )
+                        )
+                    }
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Toast.makeText(
+                    requireContext(),
+                    "Failed to fetch data: ${error.message}",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        })
+    }
+
     private fun fetchSecurityGuardAvailability() {
-        databaseReference.child("isAvailable").addValueEventListener(object : ValueEventListener {
+        securityGuardReference.child("isAvailable").addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 if (snapshot.exists()) {
                     val isAvailable = snapshot.getValue(Boolean::class.java) ?: false
@@ -75,7 +115,5 @@ class HomeFragment : Fragment() {
                 ).show()
             }
         })
-
-
     }
 }

@@ -32,10 +32,30 @@
             android:layout_height="wrap_content"
             android:text="Security Guard Availability:"
             android:textSize="18sp"
-            android:layout_marginBottom="8dp" />
+            android:layout_marginBottom="8dp"
+            android:textStyle="bold"/>
 
         <TextView
             android:id="@+id/securityGuardAvailability"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Loading..."
+            android:textSize="16sp"
+            android:layout_marginBottom="16dp" />
+
+
+        <TextView
+            android:id="@+id/sapartmentcleaningstatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:text="Apartment Cleaned:"
+            android:textSize="18sp"
+            android:layout_marginBottom="8dp" />
+
+
+        <TextView
+            android:id="@+id/apartmentcleaned"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Loading..."
