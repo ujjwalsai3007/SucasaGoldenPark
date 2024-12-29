@@ -51,19 +51,20 @@ class SignIn : AppCompatActivity() {
             databaseReference.child(email.replace(".", ",")).get().addOnSuccessListener { snapshot ->
                 if (snapshot.exists()) {
                     val storedPassword = snapshot.child("password").value.toString()
-                    val role = snapshot.child("role").value.toString() // Role from database
+                    val role = snapshot.child("role").value.toString()
+                    val houseNumber = snapshot.child("houseNumber").value.toString() // Fetch house number
 
                     if (storedPassword == password) {
                         // Save credentials if "Remember Me" is checked
+                        val editor = sharedPreferences.edit()
                         if (rememberMe) {
-                            val editor = sharedPreferences.edit()
                             editor.putString("email", email)
                             editor.putString("password", password)
                             editor.putBoolean("rememberMe", true)
-                            editor.apply()
-                        } else {
-                            sharedPreferences.edit().clear().apply()
                         }
+                        // Save house number regardless of "Remember Me"
+                        editor.putString("houseNumber", houseNumber)
+                        editor.apply()
 
                         // Role-based redirection
                         when (role) {
