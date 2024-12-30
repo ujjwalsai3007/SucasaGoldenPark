@@ -1,0 +1,26 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/nav_president_home"
+        android:icon="@drawable/ic_home"
+        android:title="Home" />
+
+    <item
+        android:id="@+id/nav_president_events"
+        android:icon="@drawable/ic_events"
+        android:title="Events" />
+
+    <item
+        android:id="@+id/nav_president_maintenance"
+        android:icon="@drawable/ic_maintenance"
+        android:title="Maintenance" />
+
+    <item
+        android:id="@+id/nav_president_bills"
+        android:icon="@drawable/ic_bills"
+        android:title="Bills" />
+
+    <item
+        android:id="@+id/nav_president_settings"
+        android:icon="@drawable/ic_settings"
+        android:title="Settings" />
+</menu>
