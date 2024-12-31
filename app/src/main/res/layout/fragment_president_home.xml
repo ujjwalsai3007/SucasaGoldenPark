@@ -2,8 +2,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background_gradient"
-    >
+    android:background="@drawable/background_gradient">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -66,5 +65,25 @@
             android:backgroundTint="@color/black"
             android:textColor="@android:color/white"
             android:layout_marginTop="24dp" />
+
+        <!-- Raise Issue Button -->
+        <Button
+            android:id="@+id/presidentRaiseIssueButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Raise an Issue"
+            android:layout_marginTop="16dp"
+            android:backgroundTint="@color/black"
+            android:textColor="@android:color/white" />
+
+        <!-- View Issues Button -->
+        <Button
+            android:id="@+id/presidentViewIssuesButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="View Issues"
+            android:layout_marginTop="16dp"
+            android:backgroundTint="@color/black"
+            android:textColor="@android:color/white" />
     </LinearLayout>
 </RelativeLayout>

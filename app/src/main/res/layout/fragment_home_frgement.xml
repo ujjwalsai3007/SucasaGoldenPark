@@ -72,5 +72,26 @@
             android:textColor="@android:color/white"
             android:layout_marginTop="24dp" />
 
+        <Button
+            android:id="@+id/raiseIssueButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Raise an Issue"
+            android:layout_marginTop="16dp"
+            android:backgroundTint="@android:color/black"
+            android:textColor="@android:color/white"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/viewIssuesButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="View Issues"
+            android:layout_marginTop="16dp"
+            android:backgroundTint="@android:color/black"
+            android:textColor="@android:color/white"
+            android:textStyle="bold" />
+
+
     </LinearLayout>
 </RelativeLayout>
