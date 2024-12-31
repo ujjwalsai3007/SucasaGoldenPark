@@ -24,6 +24,8 @@ class PresidentHomeFragment : Fragment() {
         securityGuardTextView = view.findViewById(R.id.securityGuardAvailability)
         cleaningStatusTextView = view.findViewById(R.id.apartmentCleaningStatus)
         databaseReference = FirebaseDatabase.getInstance().getReference()
+        val raiseIssueButton = view.findViewById<Button>(R.id.presidentRaiseIssueButton)
+        val viewIssuesButton = view.findViewById<Button>(R.id.presidentViewIssuesButton)
 
         fetchSecurityGuardAvailability()
         fetchApartmentCleaningStatus()
@@ -36,6 +38,18 @@ class PresidentHomeFragment : Fragment() {
                 .addToBackStack(null)
                 .commit()
 
+        }
+        raiseIssueButton.setOnClickListener {
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.president_fragment_container, RaiseIssueFragment())
+                .addToBackStack(null)
+                .commit()
+        }
+        viewIssuesButton.setOnClickListener {
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.president_fragment_container, IssuesFragment())
+                .addToBackStack(null)
+                .commit()
         }
         return view
     }

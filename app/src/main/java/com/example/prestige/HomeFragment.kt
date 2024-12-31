@@ -12,10 +12,10 @@ import com.google.firebase.database.*
 
 class HomeFragment : Fragment() {
 
-    private lateinit var securityGuardReference: DatabaseReference
-    private lateinit var cleaningStatusReference: DatabaseReference
+    private lateinit var securityGuardRef: DatabaseReference
+    private lateinit var cleaningStatusRef: DatabaseReference
     private lateinit var availabilityTextView: TextView
-    private lateinit var apartmentCleanedTextView: TextView
+    private lateinit var apartmentcleanedTextView: TextView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -23,23 +23,42 @@ class HomeFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_home_frgement, container, false)
 
-        // Initialize the TextViews
+        // Initialize Views
         availabilityTextView = view.findViewById(R.id.securityGuardAvailability)
-        apartmentCleanedTextView = view.findViewById(R.id.apartmentcleaned)
+        apartmentcleanedTextView = view.findViewById(R.id.apartmentcleaned)
 
-        // Initialize Firebase Database references
-        securityGuardReference = FirebaseDatabase.getInstance().getReference("SecurityGuardStatus")
-        cleaningStatusReference = FirebaseDatabase.getInstance().getReference("ApartmentCleaningStatus")
+        val ordersButton = view.findViewById<Button>(R.id.ordersButton)
+        val raiseIssueButton = view.findViewById<Button>(R.id.raiseIssueButton)
+        val viewIssuesButton = view.findViewById<Button>(R.id.viewIssuesButton)
 
-        // Fetch and update data
+        // Initialize Firebase references
+        securityGuardRef = FirebaseDatabase.getInstance().getReference("SecurityGuardStatus")
+        cleaningStatusRef = FirebaseDatabase.getInstance().getReference("ApartmentCleaningStatus")
+
+        // Fetch Data
         fetchSecurityGuardAvailability()
         fetchApartmentCleaningStatus()
 
-        // Handle orders button click
-        val ordersButton = view.findViewById<Button>(R.id.ordersButton)
+        // Navigate to "View Orders" screen
         ordersButton.setOnClickListener {
             parentFragmentManager.beginTransaction()
                 .replace(R.id.fragment_container, OrdersFragment())
+                .addToBackStack(null)
+                .commit()
+        }
+
+        // Navigate to "Raise an Issue" screen
+        raiseIssueButton.setOnClickListener {
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.fragment_container, RaiseIssueFragment())
+                .addToBackStack(null)
+                .commit()
+        }
+
+        // Navigate to "View Issues" screen
+        viewIssuesButton.setOnClickListener {
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.fragment_container, IssuesFragment())
                 .addToBackStack(null)
                 .commit()
         }
@@ -48,25 +67,19 @@ class HomeFragment : Fragment() {
     }
 
     private fun fetchApartmentCleaningStatus() {
-        cleaningStatusReference.child("isCleaned").addValueEventListener(object : ValueEventListener {
+        cleaningStatusRef.child("isCleaned").addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 if (snapshot.exists()) {
                     val isCleaned = snapshot.getValue(Boolean::class.java) ?: false
                     if (isCleaned) {
-                        apartmentCleanedTextView.text = "Cleaned"
-                        apartmentCleanedTextView.setTextColor(
-                            resources.getColor(
-                                android.R.color.holo_green_dark,
-                                null
-                            )
+                        apartmentcleanedTextView.text = "Cleaned"
+                        apartmentcleanedTextView.setTextColor(
+                            resources.getColor(android.R.color.holo_green_dark, null)
                         )
                     } else {
-                        apartmentCleanedTextView.text = "Uncleaned"
-                        apartmentCleanedTextView.setTextColor(
-                            resources.getColor(
-                                android.R.color.holo_red_dark,
-                                null
-                            )
+                        apartmentcleanedTextView.text = "Uncleaned"
+                        apartmentcleanedTextView.setTextColor(
+                            resources.getColor(android.R.color.holo_red_dark, null)
                         )
                     }
                 }
@@ -83,25 +96,19 @@ class HomeFragment : Fragment() {
     }
 
     private fun fetchSecurityGuardAvailability() {
-        securityGuardReference.child("isAvailable").addValueEventListener(object : ValueEventListener {
+        securityGuardRef.child("isAvailable").addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 if (snapshot.exists()) {
                     val isAvailable = snapshot.getValue(Boolean::class.java) ?: false
                     if (isAvailable) {
                         availabilityTextView.text = "Available"
                         availabilityTextView.setTextColor(
-                            resources.getColor(
-                                android.R.color.holo_green_dark,
-                                null
-                            )
+                            resources.getColor(android.R.color.holo_green_dark, null)
                         )
                     } else {
                         availabilityTextView.text = "Not Available"
                         availabilityTextView.setTextColor(
-                            resources.getColor(
-                                android.R.color.holo_red_dark,
-                                null
-                            )
+                            resources.getColor(android.R.color.holo_red_dark, null)
                         )
                     }
                 }
