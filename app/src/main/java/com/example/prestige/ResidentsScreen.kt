@@ -1,7 +1,6 @@
 package com.example.prestige
 
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.prestige.databinding.ActivityResidentsScreenBinding
@@ -14,17 +13,15 @@ class ResidentsScreen : AppCompatActivity() {
         binding = ActivityResidentsScreenBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        enableEdgeToEdge()
-
-        // Set the initial fragment
+        // Default fragment
         replaceFragment(HomeFragment())
 
-        // Set up the bottom navigation listener
+        // Bottom navigation listener
         binding.bottomNavigation.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.nav_home -> replaceFragment(HomeFragment())
+                R.id.nav_activity-> replaceFragment(ResidentsActivityFragment())
                 R.id.nav_profile -> replaceFragment(ProfileFragment())
-                R.id.nav_settings -> replaceFragment(SettingsFragement())
             }
             true
         }

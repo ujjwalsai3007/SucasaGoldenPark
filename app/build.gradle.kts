@@ -57,6 +57,7 @@ dependencies {
     implementation(libs.firebase.firestore.ktx)
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
+    implementation(libs.firebase.auth.ktx)
 
     // Testing Dependencies
     testImplementation(libs.junit)

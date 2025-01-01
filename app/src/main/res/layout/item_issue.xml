@@ -3,45 +3,32 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="16dp"
-    android:background="@drawable/item_background"
-    android:layout_margin="8dp">
+    android:padding="8dp"
+    android:background="@android:color/white"
+    android:layout_marginBottom="8dp"
+    android:elevation="4dp">
 
-    <!-- House Number -->
     <TextView
-        android:id="@+id/houseNumberTextView"
+        android:id="@+id/titleText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="House Number: G5"
-        android:textStyle="bold"
+        android:text="Title"
         android:textSize="16sp"
-        android:layout_marginBottom="4dp" />
+        android:textStyle="bold" />
 
-    <!-- Issue Title -->
     <TextView
-        android:id="@+id/issueTitleTextView"
+        android:id="@+id/descriptionText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Issue Title"
-        android:textStyle="bold"
-        android:textSize="18sp"
-        android:layout_marginBottom="8dp" />
+        android:text="Description"
+        android:textSize="14sp"
+        android:layout_marginTop="4dp" />
 
-    <!-- Issue Description -->
     <TextView
-        android:id="@+id/issueDescriptionTextView"
+        android:id="@+id/dateText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Issue Description: Description text goes here..."
-        android:textSize="14sp" />
-
-    <Button
-        android:id="@+id/deleteIssueButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:backgroundTint="@android:color/holo_red_dark"
-        android:text="Delete"
-        android:textColor="@android:color/white"
-        android:textSize="10dp" />
-
+        android:text="Date"
+        android:textSize="14sp"
+        android:layout_marginTop="4dp" />
 </LinearLayout>

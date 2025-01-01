@@ -14,10 +14,10 @@
         android:roundIcon="@drawable/applogoresize1"
         android:supportsRtl="true"
         android:theme="@style/Theme.PRESTIGE"
-        tools:targetApi="31">
-        <activity
-            android:name=".PresidentScreen"
-            android:exported="false" />
+        tools:targetApi="31"
+        android:enableOnBackInvokedCallback="true">
+
+
         <activity
             android:name=".PresidentsScreen"
             android:exported="false"
@@ -37,6 +37,10 @@
         <activity
             android:name=".SignIn"
             android:exported="false" />
+        <activity android:name=".RaiseIssueactivity" />
+        <activity android:name=".ViewIssuesActivity" />
+        <activity android:name=".ViewEventsActivity" />
+        <activity android:name=".ScheduleEventFragment" />
         <activity
             android:name=".MainActivity"
             android:exported="true">

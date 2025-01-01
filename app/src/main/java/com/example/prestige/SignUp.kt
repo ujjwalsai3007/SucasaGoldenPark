@@ -19,13 +19,7 @@ class SignUp : AppCompatActivity() {
         binding = ActivitySignUpBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Firebase Database setup
         databaseReference = FirebaseDatabase.getInstance().getReference("Users")
-
-        // Restrict username to alphabets only
-        binding.name.filters = arrayOf(InputFilter { source, _, _, _, _, _ ->
-            if (source.matches(Regex("^[a-zA-Z]+$"))) source else ""
-        })
 
         binding.signup.setOnClickListener {
             val name = binding.name.text.toString().trim()
@@ -35,29 +29,7 @@ class SignUp : AppCompatActivity() {
             val role = binding.roleSpinner.selectedItem.toString()
 
             if (name.isEmpty() || email.isEmpty() || password.isEmpty() || houseNumber.isEmpty() || role == "Select Role") {
-                Toast.makeText(this, "Please fill all the fields and select a valid role", Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
-            }
-
-            if (!email.matches(Regex("^[a-zA-Z].*"))) {
-                Toast.makeText(this, "Email must start with an alphabet", Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
-            }
-
-            if (!email.endsWith("@gmail.com")) {
-                Toast.makeText(this, "Email must end with @gmail.com", Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
-            }
-
-            val validHouseNumbers = listOf(
-                "G1", "G2", "G3", "G4", "G5", "G6", "G7",
-                "101", "102", "103", "104", "105", "106", "107",
-                "201", "202", "203", "204", "205", "206", "207",
-                "301", "302", "303", "304", "305", "306", "307",
-                "401", "402", "403", "404", "405", "406", "407"
-            )
-            if (!validHouseNumbers.contains(houseNumber)) {
-                Toast.makeText(this, "Invalid house number", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
@@ -74,16 +46,15 @@ class SignUp : AppCompatActivity() {
         }
 
         binding.textViewAlready.setOnClickListener {
-            val intent = Intent(this, SignIn::class.java)
-            startActivity(intent)
+            startActivity(Intent(this, SignIn::class.java))
         }
     }
 }
 
 data class User(
-    val name: String,
-    val email: String,
-    val password: String,
-    val houseNumber: String,
-    val role: String
+    val name: String,         // User's full name
+    val email: String,        // User's email address (e.g., user@example.com)
+    val password: String,     // User's password (hashed or plaintext)
+    val houseNumber: String,  // House number associated with the user (e.g., G1, G2)
+    val role: String          // User role (e.g., Resident, President, Security Guard)
 )

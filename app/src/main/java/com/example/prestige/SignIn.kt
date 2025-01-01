@@ -17,10 +17,8 @@ class SignIn : AppCompatActivity() {
         binding = ActivitySignInBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Initialize SharedPreferences
         sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE)
 
-        // Auto-fill email and password if "Remember Me" is checked
         val savedEmail = sharedPreferences.getString("email", null)
         val savedPassword = sharedPreferences.getString("password", null)
         val isRemembered = sharedPreferences.getBoolean("rememberMe", false)
@@ -31,58 +29,41 @@ class SignIn : AppCompatActivity() {
             binding.rememberMe.isChecked = true
         }
 
-        val emailField = binding.email
-        val passwordField = binding.password
-        val signInButton = binding.signInBtn
-        val rememberMeCheckbox = binding.rememberMe
-
-        signInButton.setOnClickListener {
-            val email = emailField.text.toString().trim()
-            val password = passwordField.text.toString().trim()
-            val rememberMe = rememberMeCheckbox.isChecked
+        binding.signInBtn.setOnClickListener {
+            val email = binding.email.text.toString().trim()
+            val password = binding.password.text.toString().trim()
+            val rememberMe = binding.rememberMe.isChecked
 
             if (email.isEmpty() || password.isEmpty()) {
                 Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
-            // Firebase authentication
             val databaseReference = FirebaseDatabase.getInstance().getReference("Users")
             databaseReference.child(email.replace(".", ",")).get().addOnSuccessListener { snapshot ->
                 if (snapshot.exists()) {
                     val storedPassword = snapshot.child("password").value.toString()
+                    val userName = snapshot.child("name").value.toString() // Fetch user name
                     val role = snapshot.child("role").value.toString()
-                    val houseNumber = snapshot.child("houseNumber").value.toString() // Fetch house number
+                    val houseNumber = snapshot.child("houseNumber").value?.toString() ?: "Unknown"
 
                     if (storedPassword == password) {
-                        // Save credentials if "Remember Me" is checked
                         val editor = sharedPreferences.edit()
                         if (rememberMe) {
                             editor.putString("email", email)
                             editor.putString("password", password)
                             editor.putBoolean("rememberMe", true)
                         }
-                        // Save house number regardless of "Remember Me"
                         editor.putString("houseNumber", houseNumber)
+                        editor.putString("role", role)
+                        editor.putString("userName", userName) // Save userName
                         editor.apply()
 
-                        // Role-based redirection
                         when (role) {
-                            "Resident" -> {
-                                val intent = Intent(this, ResidentsScreen::class.java)
-                                startActivity(intent)
-                            }
-                            "President" -> {
-                                val intent = Intent(this, PresidentsScreen::class.java)
-                                startActivity(intent)
-                            }
-                            "Security Guard" -> {
-                                val intent = Intent(this, SecurityGuardScreen::class.java)
-                                startActivity(intent)
-                            }
-                            else -> {
-                                Toast.makeText(this, "Invalid role detected", Toast.LENGTH_SHORT).show()
-                            }
+                            "Resident" -> startActivity(Intent(this, ResidentsScreen::class.java))
+                            "President" -> startActivity(Intent(this, PresidentsScreen::class.java))
+                            "Security Guard" -> startActivity(Intent(this, SecurityGuardScreen::class.java))
+                            else -> Toast.makeText(this, "Invalid role detected", Toast.LENGTH_SHORT).show()
                         }
                     } else {
                         Toast.makeText(this, "Incorrect password", Toast.LENGTH_SHORT).show()
@@ -96,4 +77,3 @@ class SignIn : AppCompatActivity() {
         }
     }
 }
-

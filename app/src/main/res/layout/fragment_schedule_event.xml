@@ -1,0 +1,67 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="@drawable/background_gradient">
+
+    <!-- Title for Schedule Events -->
+    <TextView
+        android:id="@+id/scheduleEventTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="16dp"
+        android:text="Schedule New Event"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
+    <!-- Event Name Input -->
+    <EditText
+        android:id="@+id/eventNameInput"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Event Name"
+        android:layout_marginBottom="16dp"
+        android:inputType="text" />
+
+    <!-- Event Description Input -->
+    <EditText
+        android:id="@+id/eventDescriptionInput"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Event Description"
+        android:layout_marginBottom="16dp"
+        android:inputType="textMultiLine" />
+
+    <!-- Date Selection Button -->
+    <Button
+        android:id="@+id/selectDateButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Select Date"
+        android:layout_marginBottom="8dp"
+        android:backgroundTint="@color/black"
+        android:textColor="@android:color/white" />
+
+    <!-- Selected Date Text -->
+    <TextView
+        android:id="@+id/selectedDateTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="No Date Selected"
+        android:layout_marginBottom="16dp"
+        android:textSize="16sp"
+        android:textColor="@android:color/black" />
+
+    <!-- Schedule Event Button -->
+    <Button
+        android:id="@+id/scheduleEventButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Schedule Event"
+        android:backgroundTint="@color/black"
+        android:textColor="@android:color/white" />
+
+</LinearLayout>

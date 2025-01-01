@@ -50,17 +50,58 @@
         android:layout_marginTop="20dp"
         android:text="Cleaned" />
 
-    <!-- Button for Adding Orders -->
-    <Button
-        android:id="@+id/addOrderButton"
-        android:layout_width="200dp"
+    <!-- Buttons Layout -->
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/availabilitySwitch1"
-        android:layout_centerHorizontal="true"
         android:layout_marginTop="40dp"
-        android:backgroundTint="@color/black"
         android:gravity="center"
-        android:text="Add Orders"
-        android:textColor="@android:color/white" />
+        android:orientation="vertical"
+        android:padding="16dp">
 
+        <!-- Button for Adding Orders -->
+        <Button
+            android:id="@+id/addOrderButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:backgroundTint="@color/black"
+            android:text="Add Orders"
+            android:textColor="@android:color/white"
+            android:textStyle="bold" />
+
+        <!-- Button for Raising Issues -->
+        <Button
+            android:id="@+id/raiseIssueButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:backgroundTint="@color/black"
+            android:text="Raise Issues"
+            android:textColor="@android:color/white"
+            android:textStyle="bold" />
+
+        <!-- Button for Viewing Issues -->
+        <Button
+            android:id="@+id/viewIssuesButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:backgroundTint="@color/black"
+            android:text="View Issues"
+            android:textColor="@android:color/white"
+            android:textStyle="bold" />
+
+        <!-- Button for Viewing Events -->
+        <Button
+            android:id="@+id/viewEventsButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/black"
+            android:text="View Events"
+            android:textColor="@android:color/white"
+            android:textStyle="bold" />
+
+    </LinearLayout>
 </RelativeLayout>
