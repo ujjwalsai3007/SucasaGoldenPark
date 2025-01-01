@@ -4,14 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.database.*
 
-class PresidentEventsFragment : Fragment() {
+class ResidentsActivityFragment : Fragment() {
 
     private lateinit var eventsRecyclerView: RecyclerView
     private lateinit var databaseReference: DatabaseReference
@@ -21,14 +20,12 @@ class PresidentEventsFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_president_events, container, false)
+        val view = inflater.inflate(R.layout.fragment_residents_activity, container, false)
 
         eventsRecyclerView = view.findViewById(R.id.eventsRecyclerView)
         eventsRecyclerView.layoutManager = LinearLayoutManager(requireContext())
 
-        val adapter = EventsAdapter(eventsList, true) { eventId ->
-            deleteEvent(eventId)
-        }
+        val adapter = EventsAdapter(eventsList, false) { /* No delete functionality */ }
         eventsRecyclerView.adapter = adapter
 
         databaseReference = FirebaseDatabase.getInstance().getReference("Events")
@@ -49,23 +46,6 @@ class PresidentEventsFragment : Fragment() {
             }
         })
 
-        val scheduleButton = view.findViewById<Button>(R.id.scheduleButton)
-        scheduleButton.setOnClickListener {
-            val fragment = ScheduleEventFragment()
-            parentFragmentManager.beginTransaction()
-                .replace(R.id.president_fragment_container, fragment) // Replace with your container ID
-                .addToBackStack(null)
-                .commit()
-        }
-
         return view
-    }
-
-    private fun deleteEvent(eventId: String) {
-        databaseReference.child(eventId).removeValue().addOnSuccessListener {
-            Toast.makeText(requireContext(), "Event deleted successfully", Toast.LENGTH_SHORT).show()
-        }.addOnFailureListener {
-            Toast.makeText(requireContext(), "Failed to delete event", Toast.LENGTH_SHORT).show()
-        }
     }
 }

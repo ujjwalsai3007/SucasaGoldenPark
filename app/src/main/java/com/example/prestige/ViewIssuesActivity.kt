@@ -1,29 +1,24 @@
 package com.example.prestige
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
-import androidx.fragment.app.Fragment
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.database.*
 
-class IssuesFragment : Fragment() {
+class ViewIssuesActivity : AppCompatActivity() {
 
     private lateinit var issuesRecyclerView: RecyclerView
     private lateinit var databaseReference: DatabaseReference
     private val issuesList = mutableListOf<Issue>()
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        val view = inflater.inflate(R.layout.fragment_issues, container, false)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_view_issues)
 
-        issuesRecyclerView = view.findViewById(R.id.issuesRecyclerView)
-        issuesRecyclerView.layoutManager = LinearLayoutManager(requireContext())
+        issuesRecyclerView = findViewById(R.id.issuesRecyclerView)
+        issuesRecyclerView.layoutManager = LinearLayoutManager(this)
 
         val adapter = IssuesAdapter(issuesList)
         issuesRecyclerView.adapter = adapter
@@ -42,10 +37,8 @@ class IssuesFragment : Fragment() {
             }
 
             override fun onCancelled(error: DatabaseError) {
-                Toast.makeText(requireContext(), "Failed to load issues: ${error.message}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@ViewIssuesActivity, "Failed to load issues: ${error.message}", Toast.LENGTH_SHORT).show()
             }
         })
-
-        return view
     }
 }

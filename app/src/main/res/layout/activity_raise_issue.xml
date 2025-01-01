@@ -1,0 +1,75 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="@drawable/background_gradient">
+
+    <!-- Title -->
+    <TextView
+        android:id="@+id/raiseIssueTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Raise an Issue"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="16dp" />
+
+    <!-- Issue Title -->
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/issueTitleInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter Issue Title" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- Issue Description -->
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/issueDescriptionInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter Issue Description"
+            android:inputType="textMultiLine" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- Date Text View -->
+    <TextView
+        android:id="@+id/issueDateTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="No Date Selected"
+        android:layout_marginBottom="8dp"
+        android:textSize="16sp" />
+
+    <!-- Select Date Button -->
+    <Button
+        android:id="@+id/selectDateButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Select Date"
+        android:layout_marginBottom="16dp"
+        android:backgroundTint="@color/black"
+        android:textColor="@android:color/white" />
+
+    <!-- Submit Button -->
+    <Button
+        android:id="@+id/submitIssueButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Submit Issue"
+        android:backgroundTint="@color/black"
+        android:textColor="@android:color/white"
+        android:textStyle="bold" />
+</LinearLayout>

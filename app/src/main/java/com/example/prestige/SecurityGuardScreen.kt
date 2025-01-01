@@ -4,6 +4,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.prestige.databinding.ActivitySecurityGuardScreenBinding
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
@@ -30,6 +32,24 @@ class SecurityGuardScreen : AppCompatActivity() {
         // Add Order Button
         binding.addOrderButton.setOnClickListener {
             val intent = Intent(this, AddOrderActivity::class.java)
+            startActivity(intent)
+        }
+
+        // Raise Issue Button
+        binding.raiseIssueButton.setOnClickListener {
+            val intent = Intent(this, RaiseIssueactivity::class.java)
+            startActivity(intent)
+        }
+
+        // View Issues Button
+        binding.viewIssuesButton.setOnClickListener {
+            val intent = Intent(this, ViewIssuesActivity::class.java)
+            startActivity(intent)
+        }
+
+        // View Events Button
+        binding.viewEventsButton.setOnClickListener {
+            val intent = Intent(this, ViewEventsActivity::class.java)
             startActivity(intent)
         }
     }

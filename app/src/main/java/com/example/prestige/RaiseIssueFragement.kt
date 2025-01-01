@@ -1,32 +1,26 @@
 package com.example.prestige
 
+import android.app.DatePickerDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
-import android.widget.Spinner
+import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
-
-data class Issue(
-    val houseNumber: String = "",
-    val title: String = "",
-    val description: String = ""
-
-)
+import java.util.*
 
 class RaiseIssueFragment : Fragment() {
 
+    private lateinit var databaseReference: DatabaseReference
     private lateinit var issueTitleInput: EditText
     private lateinit var issueDescriptionInput: EditText
-    private lateinit var prioritySpinner: Spinner
+    private lateinit var issueDateInput: TextView
     private lateinit var submitIssueButton: Button
-    private lateinit var databaseReference: DatabaseReference
-    private var houseNumber: String = "President"
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -34,40 +28,49 @@ class RaiseIssueFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_raise_issue, container, false)
 
-        // Initialize Views
         issueTitleInput = view.findViewById(R.id.issueTitleInput)
         issueDescriptionInput = view.findViewById(R.id.issueDescriptionInput)
-        prioritySpinner = view.findViewById(R.id.prioritySpinner)
+        issueDateInput = view.findViewById(R.id.issueDateInput)
         submitIssueButton = view.findViewById(R.id.submitIssueButton)
 
-        // Firebase Database reference
         databaseReference = FirebaseDatabase.getInstance().getReference("Issues")
 
-        // Handle Submit Button Click
-        submitIssueButton.setOnClickListener {
-            submitIssue()
-        }
+        issueDateInput.setOnClickListener { showDatePicker() }
+        submitIssueButton.setOnClickListener { submitIssue() }
 
         return view
+    }
+
+    private fun showDatePicker() {
+        val calendar = Calendar.getInstance()
+        val year = calendar.get(Calendar.YEAR)
+        val month = calendar.get(Calendar.MONTH)
+        val day = calendar.get(Calendar.DAY_OF_MONTH)
+
+        DatePickerDialog(requireContext(), { _, selectedYear, selectedMonth, selectedDay ->
+            val formattedDate = "$selectedDay/${selectedMonth + 1}/$selectedYear"
+            issueDateInput.text = formattedDate
+        }, year, month, day).show()
     }
 
     private fun submitIssue() {
         val title = issueTitleInput.text.toString().trim()
         val description = issueDescriptionInput.text.toString().trim()
-        val priority = prioritySpinner.selectedItem.toString()
+        val date = issueDateInput.text.toString().trim()
 
-        if (title.isEmpty() || description.isEmpty()) {
-            Toast.makeText(requireContext(), "Please fill in all fields", Toast.LENGTH_SHORT).show()
+        if (title.isEmpty() || description.isEmpty() || date.isEmpty()) {
+            Toast.makeText(requireContext(), "All fields are required", Toast.LENGTH_SHORT).show()
             return
         }
 
         val issueId = databaseReference.push().key ?: return
-        val issue = Issue1(issueId, houseNumber, title, description, priority)
+        val issue = Issue(issueId, title, description, date)
 
         databaseReference.child(issueId).setValue(issue).addOnSuccessListener {
             Toast.makeText(requireContext(), "Issue raised successfully", Toast.LENGTH_SHORT).show()
             issueTitleInput.text.clear()
             issueDescriptionInput.text.clear()
+            issueDateInput.text = ""
         }.addOnFailureListener {
             Toast.makeText(requireContext(), "Failed to raise issue", Toast.LENGTH_SHORT).show()
         }
