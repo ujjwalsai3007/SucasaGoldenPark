@@ -52,6 +52,11 @@ class SecurityGuardScreen : AppCompatActivity() {
             val intent = Intent(this, ViewEventsActivity::class.java)
             startActivity(intent)
         }
+
+        binding.maintainancebutton.setOnClickListener {
+            val intent=Intent(this,UpdateMaintenanceActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     private fun setupAvailabilitySwitch(databaseReference: DatabaseReference) {

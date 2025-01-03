@@ -6,6 +6,7 @@
     android:padding="16dp"
     android:background="@color/white">
 
+    <!-- Title for Events -->
     <TextView
         android:id="@+id/activitytitle"
         android:layout_width="wrap_content"
@@ -17,10 +18,16 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginBottom="16dp" />
 
+    <!-- Events RecyclerView -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/eventsRecyclerView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:divider="@android:color/darker_gray"
-        android:dividerHeight="1dp" />
+        android:dividerHeight="1dp"
+        android:layout_marginBottom="16dp" />
+
+    <!-- Maintenance Status -->
+
+
 </LinearLayout>
