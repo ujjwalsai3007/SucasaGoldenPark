@@ -54,25 +54,34 @@ class SignIn : AppCompatActivity() {
                             editor.putString("password", password)
                             editor.putBoolean("rememberMe", true)
                         }
+                        editor.putBoolean("isLoggedIn", true) // Save login state
                         editor.putString("houseNumber", houseNumber)
                         editor.putString("role", role)
-                        editor.putString("userName", userName) // Save userName
+                        editor.putString("userName", userName)
                         editor.apply()
 
+                        // Redirect to respective main screen
                         when (role) {
                             "Resident" -> startActivity(Intent(this, ResidentsScreen::class.java))
                             "President" -> startActivity(Intent(this, PresidentsScreen::class.java))
-                            "Security Guard" -> startActivity(Intent(this, SecurityGuardScreen::class.java))
-                            else -> Toast.makeText(this, "Invalid role detected", Toast.LENGTH_SHORT).show()
+                            "Security Guard" -> startActivity(
+                                Intent(
+                                    this,
+                                    SecurityGuardScreen::class.java
+                                )
+                            )
+
+                            else -> Toast.makeText(
+                                this,
+                                "Invalid role detected",
+                                Toast.LENGTH_SHORT
+                            ).show()
                         }
+                        finish() // Close SignIn activity
                     } else {
                         Toast.makeText(this, "Incorrect password", Toast.LENGTH_SHORT).show()
                     }
-                } else {
-                    Toast.makeText(this, "User does not exist", Toast.LENGTH_SHORT).show()
                 }
-            }.addOnFailureListener {
-                Toast.makeText(this, "Failed to login", Toast.LENGTH_SHORT).show()
             }
         }
     }
