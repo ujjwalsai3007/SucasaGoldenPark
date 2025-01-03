@@ -24,7 +24,6 @@ class PresidentsScreen : AppCompatActivity() {
                 R.id.nav_president_home -> replaceFragment(PresidentHomeFragment())
                 R.id.nav_president_events -> replaceFragment(PresidentEventsFragment())
                 R.id.nav_president_maintenance -> replaceFragment(PresidentMaintenanceFragment())
-                R.id.nav_president_bills -> replaceFragment(PresidentsBillsFragment())
                 R.id.nav_president_settings -> replaceFragment(PresidentsSettingsFragment())
                 else -> false
             }

@@ -1,97 +1,140 @@
-<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background_gradient"
-    >
+    android:background="@drawable/background_gradient">
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:padding="16dp"
-        android:layout_marginTop="55dp"
-        >
+        android:padding="16dp">
 
-        <!-- Title -->
-        <TextView
-            android:id="@+id/hometitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Welcome to Home"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="24dp" />
-
-        <!-- Security Guard Availability -->
-        <TextView
-            android:id="@+id/securityGuardLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Security Guard Availability:"
-            android:textSize="18sp"
-            android:layout_marginBottom="8dp"
-            android:textStyle="bold"/>
-
-        <TextView
-            android:id="@+id/securityGuardAvailability"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Loading..."
-            android:textSize="16sp"
-            android:layout_marginBottom="16dp" />
-
-
-        <TextView
-            android:id="@+id/sapartmentcleaningstatus"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textStyle="bold"
-            android:text="Apartment Cleaned:"
-            android:textSize="18sp"
-            android:layout_marginBottom="8dp" />
-
-
-        <TextView
-            android:id="@+id/apartmentcleaned"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Loading..."
-            android:textSize="16sp"
-            android:layout_marginBottom="16dp" />
-
-        <!-- Orders Button -->
-        <Button
-            android:id="@+id/ordersButton"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="View Orders"
-            android:backgroundTint="@color/black"
-            android:textColor="@android:color/white"
-            android:layout_marginTop="24dp" />
+            android:orientation="vertical"
+            android:gravity="center_horizontal">
 
-        <Button
-            android:id="@+id/raiseIssueButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Raise an Issue"
-            android:layout_marginTop="16dp"
-            android:backgroundTint="@android:color/black"
-            android:textColor="@android:color/white"
-            android:textStyle="bold" />
+            <!-- Title -->
+            <TextView
+                android:id="@+id/hometitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Welcome to Home"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="24dp" />
 
-        <Button
-            android:id="@+id/viewIssuesButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="View Issues"
-            android:layout_marginTop="16dp"
-            android:backgroundTint="@android:color/black"
-            android:textColor="@android:color/white"
-            android:textStyle="bold" />
+            <!-- Security Guard Availability -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginBottom="16dp">
 
+                <TextView
+                    android:id="@+id/securityGuardLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Security Guard Availability:"
+                    android:textSize="18sp"
+                    android:layout_marginBottom="8dp"
+                    android:textStyle="bold" />
 
-    </LinearLayout>
+                <TextView
+                    android:id="@+id/securityGuardAvailability"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Loading..."
+                    android:textSize="16sp"
+                    android:layout_marginBottom="16dp" />
+            </LinearLayout>
+
+            <!-- Apartment Cleaning Status -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginBottom="16dp">
+
+                <TextView
+                    android:id="@+id/sapartmentcleaningstatus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:text="Apartment Cleaned:"
+                    android:textSize="18sp"
+                    android:layout_marginBottom="8dp" />
+
+                <TextView
+                    android:id="@+id/apartmentcleaned"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Loading..."
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+            <!-- View Orders Section -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="8dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <Button
+                        android:id="@+id/ordersButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="View Orders"
+                        android:backgroundTint="@color/black"
+                        android:textColor="@android:color/white"
+                        android:textStyle="bold" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Raise and View Issues Section -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="8dp"
+                android:layout_marginTop="100dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <Button
+                        android:id="@+id/raiseIssueButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Raise an Issue"
+                        android:layout_marginBottom="8dp"
+                        android:backgroundTint="@color/black"
+                        android:textColor="@android:color/white"
+                        android:textStyle="bold" />
+
+                    <Button
+                        android:id="@+id/viewIssuesButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="View Issues"
+                        android:backgroundTint="@color/black"
+                        android:textColor="@android:color/white"
+                        android:textStyle="bold" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+        </LinearLayout>
+    </ScrollView>
 </RelativeLayout>

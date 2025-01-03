@@ -6,17 +6,26 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.prestige.databinding.ActivitySignInBinding
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 
 class SignIn : AppCompatActivity() {
+
     private lateinit var binding: ActivitySignInBinding
     private lateinit var sharedPreferences: SharedPreferences
+    private lateinit var auth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySignInBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        binding.textViewSignUp.setOnClickListener {
+            val intent = Intent(this, SignUp::class.java)
+            startActivity(intent)
+        }
+
+        auth = FirebaseAuth.getInstance()
         sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE)
 
         val savedEmail = sharedPreferences.getString("email", null)
@@ -39,50 +48,50 @@ class SignIn : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            val databaseReference = FirebaseDatabase.getInstance().getReference("Users")
-            databaseReference.child(email.replace(".", ",")).get().addOnSuccessListener { snapshot ->
-                if (snapshot.exists()) {
-                    val storedPassword = snapshot.child("password").value.toString()
-                    val userName = snapshot.child("name").value.toString() // Fetch user name
-                    val role = snapshot.child("role").value.toString()
-                    val houseNumber = snapshot.child("houseNumber").value?.toString() ?: "Unknown"
+            auth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        val userId = auth.currentUser?.uid
+                        val databaseReference = FirebaseDatabase.getInstance().getReference("Users")
 
-                    if (storedPassword == password) {
-                        val editor = sharedPreferences.edit()
-                        if (rememberMe) {
-                            editor.putString("email", email)
-                            editor.putString("password", password)
-                            editor.putBoolean("rememberMe", true)
+                        userId?.let {
+                            databaseReference.child(it).get().addOnSuccessListener { snapshot ->
+                                if (snapshot.exists()) {
+                                    val userName = snapshot.child("name").value.toString()
+                                    val houseNumber = snapshot.child("houseNumber").value.toString()
+                                    val role = snapshot.child("role").value.toString()
+
+                                    val editor = sharedPreferences.edit()
+                                    if (rememberMe) {
+                                        editor.putString("email", email)
+                                        editor.putString("password", password)
+                                        editor.putBoolean("rememberMe", true)
+                                    }
+                                    editor.putBoolean("isLoggedIn", true)
+                                    editor.putString("houseNumber", houseNumber)
+                                    editor.putString("role", role)
+                                    editor.putString("userName", userName)
+                                    editor.apply()
+
+                                    // Navigate to the respective screen based on role
+                                    when (role) {
+                                        "Resident" -> startActivity(Intent(this, ResidentsScreen::class.java))
+                                        "President" -> startActivity(Intent(this, PresidentsScreen::class.java))
+                                        "Security Guard" -> startActivity(Intent(this, SecurityGuardScreen::class.java))
+                                        else -> Toast.makeText(this, "Invalid role detected", Toast.LENGTH_SHORT).show()
+                                    }
+                                    finish()
+                                } else {
+                                    Toast.makeText(this, "User data not found", Toast.LENGTH_SHORT).show()
+                                }
+                            }.addOnFailureListener {
+                                Toast.makeText(this, "Failed to fetch user details", Toast.LENGTH_SHORT).show()
+                            }
                         }
-                        editor.putBoolean("isLoggedIn", true) // Save login state
-                        editor.putString("houseNumber", houseNumber)
-                        editor.putString("role", role)
-                        editor.putString("userName", userName)
-                        editor.apply()
-
-                        // Redirect to respective main screen
-                        when (role) {
-                            "Resident" -> startActivity(Intent(this, ResidentsScreen::class.java))
-                            "President" -> startActivity(Intent(this, PresidentsScreen::class.java))
-                            "Security Guard" -> startActivity(
-                                Intent(
-                                    this,
-                                    SecurityGuardScreen::class.java
-                                )
-                            )
-
-                            else -> Toast.makeText(
-                                this,
-                                "Invalid role detected",
-                                Toast.LENGTH_SHORT
-                            ).show()
-                        }
-                        finish() // Close SignIn activity
                     } else {
-                        Toast.makeText(this, "Incorrect password", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, "Sign-in failed: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
                     }
                 }
-            }
         }
     }
 }

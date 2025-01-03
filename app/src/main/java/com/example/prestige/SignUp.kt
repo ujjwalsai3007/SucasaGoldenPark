@@ -2,24 +2,23 @@ package com.example.prestige
 
 import android.content.Intent
 import android.os.Bundle
-import android.text.InputFilter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.prestige.databinding.ActivitySignUpBinding
-import com.google.firebase.database.DatabaseReference
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 
 class SignUp : AppCompatActivity() {
 
     private lateinit var binding: ActivitySignUpBinding
-    private lateinit var databaseReference: DatabaseReference
+    private lateinit var auth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySignUpBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        databaseReference = FirebaseDatabase.getInstance().getReference("Users")
+        auth = FirebaseAuth.getInstance()
 
         binding.signup.setOnClickListener {
             val name = binding.name.text.toString().trim()
@@ -33,16 +32,26 @@ class SignUp : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            val user = User(name, email, password, houseNumber, role)
-            databaseReference.child(email.replace(".", ",")).setValue(user).addOnSuccessListener {
-                Toast.makeText(this, "User Registered Successfully", Toast.LENGTH_SHORT).show()
-                binding.name.text?.clear()
-                binding.email.text?.clear()
-                binding.password.text?.clear()
-                binding.houseNumber.text?.clear()
-            }.addOnFailureListener {
-                Toast.makeText(this, "Failed to register user", Toast.LENGTH_SHORT).show()
-            }
+            auth.createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        val userId = auth.currentUser?.uid
+                        val user = User(name, email, houseNumber, role)
+
+                        userId?.let {
+                            val databaseReference = FirebaseDatabase.getInstance().getReference("Users")
+                            databaseReference.child(it).setValue(user).addOnSuccessListener {
+                                Toast.makeText(this, "User Registered Successfully", Toast.LENGTH_SHORT).show()
+                                startActivity(Intent(this, SignIn::class.java))
+                                finish()
+                            }.addOnFailureListener {
+                                Toast.makeText(this, "Failed to save user in database", Toast.LENGTH_SHORT).show()
+                            }
+                        }
+                    } else {
+                        Toast.makeText(this, "Sign-up failed: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
+                    }
+                }
         }
 
         binding.textViewAlready.setOnClickListener {
@@ -52,9 +61,8 @@ class SignUp : AppCompatActivity() {
 }
 
 data class User(
-    val name: String,         // User's full name
-    val email: String,        // User's email address (e.g., user@example.com)
-    val password: String,     // User's password (hashed or plaintext)
-    val houseNumber: String,  // House number associated with the user (e.g., G1, G2)
-    val role: String          // User role (e.g., Resident, President, Security Guard)
+    val name: String,
+    val email: String,
+    val houseNumber: String,
+    val role: String
 )
