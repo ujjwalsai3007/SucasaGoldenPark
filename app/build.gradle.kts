@@ -58,6 +58,12 @@ dependencies {
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
     implementation(libs.firebase.auth.ktx)
+    implementation ("com.google.firebase:firebase-auth:22.1.1")
+    implementation ("com.google.firebase:firebase-database:20.3.3")
+    implementation ("com.google.android.material:material:1.9.0")
+    implementation("androidx.appcompat:appcompat:1.6.1")
+    implementation("androidx.core:core-ktx:1.10.1")
+    implementation("com.google.android.material:material:1.9.0")
 
     // Testing Dependencies
     testImplementation(libs.junit)

@@ -1,10 +1,7 @@
-<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SecurityGuardScreen"
     android:background="@drawable/background_gradient">
 
     <!-- Title for Security Guard Availability -->
@@ -30,7 +27,7 @@
 
     <!-- Title for Apartment Cleaning -->
     <TextView
-        android:id="@+id/availabilityText1"
+        android:id="@+id/cleaningStatusText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/availabilitySwitch"
@@ -42,10 +39,10 @@
 
     <!-- Switch for Apartment Cleaning -->
     <androidx.appcompat.widget.SwitchCompat
-        android:id="@+id/availabilitySwitch1"
+        android:id="@+id/cleaningStatusSwitch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/availabilityText1"
+        android:layout_below="@id/cleaningStatusText"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
         android:text="Cleaned" />
@@ -54,7 +51,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/availabilitySwitch1"
+        android:layout_below="@id/cleaningStatusSwitch"
         android:layout_marginTop="40dp"
         android:gravity="center"
         android:orientation="vertical"
@@ -66,8 +63,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
-            android:backgroundTint="@color/black"
             android:text="Add Orders"
+            android:backgroundTint="@color/black"
             android:textColor="@android:color/white"
             android:textStyle="bold" />
 
@@ -77,8 +74,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
-            android:backgroundTint="@color/black"
             android:text="Raise Issues"
+            android:backgroundTint="@color/black"
             android:textColor="@android:color/white"
             android:textStyle="bold" />
 
@@ -88,8 +85,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
-            android:backgroundTint="@color/black"
             android:text="View Issues"
+            android:backgroundTint="@color/black"
             android:textColor="@android:color/white"
             android:textStyle="bold" />
 
@@ -98,24 +95,31 @@
             android:id="@+id/viewEventsButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/black"
+            android:layout_marginBottom="16dp"
             android:text="View Events"
+            android:backgroundTint="@color/black"
             android:textColor="@android:color/white"
             android:textStyle="bold" />
 
-
+        <!-- Button for Updating Maintenance -->
         <Button
-            android:id="@+id/maintainancebutton"
+            android:id="@+id/updateMaintenanceButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:text="Update Maintenance"
             android:backgroundTint="@color/black"
-            android:text="Update Maintenance
-"
             android:textColor="@android:color/white"
-            android:textStyle="bold"
-            android:layout_marginTop="10dp"/>
+            android:textStyle="bold" />
 
-
-
+        <!-- Button for Logout -->
+        <Button
+            android:id="@+id/logoutOption"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Log Out"
+            android:backgroundTint="@color/black"
+            android:textColor="@android:color/white"
+            android:textStyle="bold" />
     </LinearLayout>
 </RelativeLayout>
