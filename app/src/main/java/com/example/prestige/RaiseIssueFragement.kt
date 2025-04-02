@@ -2,6 +2,7 @@ package com.example.prestige
 
 import android.app.DatePickerDialog
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +11,7 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import java.util.*
@@ -21,6 +23,8 @@ class RaiseIssueFragment : Fragment() {
     private lateinit var issueDescriptionInput: EditText
     private lateinit var issueDateInput: TextView
     private lateinit var submitIssueButton: Button
+    private lateinit var auth: FirebaseAuth
+    private val TAG = "RaiseIssueFragment"
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -28,12 +32,23 @@ class RaiseIssueFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_raise_issue, container, false)
 
+        // Initialize Firebase Authentication
+        auth = FirebaseAuth.getInstance()
+        
+        // Check if user is logged in
+        if (auth.currentUser == null) {
+            Log.e(TAG, "User is not authenticated")
+            Toast.makeText(requireContext(), "Please log in again", Toast.LENGTH_SHORT).show()
+            return view
+        }
+
         issueTitleInput = view.findViewById(R.id.issueTitleInput)
         issueDescriptionInput = view.findViewById(R.id.issueDescriptionInput)
         issueDateInput = view.findViewById(R.id.issueDateInput)
         submitIssueButton = view.findViewById(R.id.submitIssueButton)
 
         databaseReference = FirebaseDatabase.getInstance().getReference("Issues")
+        Log.d(TAG, "Using authentication token: ${auth.currentUser?.uid}")
 
         issueDateInput.setOnClickListener { showDatePicker() }
         submitIssueButton.setOnClickListener { submitIssue() }
@@ -54,6 +69,13 @@ class RaiseIssueFragment : Fragment() {
     }
 
     private fun submitIssue() {
+        // Verify user is authenticated before submitting
+        if (auth.currentUser == null) {
+            Log.e(TAG, "Cannot submit issue: User not authenticated")
+            Toast.makeText(requireContext(), "Authentication error. Please log in again.", Toast.LENGTH_SHORT).show()
+            return
+        }
+        
         val title = issueTitleInput.text.toString().trim()
         val description = issueDescriptionInput.text.toString().trim()
         val date = issueDateInput.text.toString().trim()
@@ -63,16 +85,25 @@ class RaiseIssueFragment : Fragment() {
             return
         }
 
+        Log.d(TAG, "Attempting to submit issue with auth: ${auth.currentUser?.uid}")
+        
+        // Get user details from shared preferences
+        val sharedPreferences = requireContext().getSharedPreferences("MyPrefs", android.content.Context.MODE_PRIVATE)
+        val userId = auth.currentUser?.uid ?: ""
+        val houseNumber = sharedPreferences.getString("houseNumber", "Unknown")
+        
         val issueId = databaseReference.push().key ?: return
-        val issue = Issue(issueId, title, description, date)
+        val issue = Issue(issueId, title, description, date, houseNumber ?: "Unknown", userId)
 
         databaseReference.child(issueId).setValue(issue).addOnSuccessListener {
+            Log.d(TAG, "Issue submitted successfully")
             Toast.makeText(requireContext(), "Issue raised successfully", Toast.LENGTH_SHORT).show()
             issueTitleInput.text.clear()
             issueDescriptionInput.text.clear()
             issueDateInput.text = ""
-        }.addOnFailureListener {
-            Toast.makeText(requireContext(), "Failed to raise issue", Toast.LENGTH_SHORT).show()
+        }.addOnFailureListener { e ->
+            Log.e(TAG, "Failed to submit issue: ${e.message}")
+            Toast.makeText(requireContext(), "Failed to raise issue: ${e.message}", Toast.LENGTH_SHORT).show()
         }
     }
 }

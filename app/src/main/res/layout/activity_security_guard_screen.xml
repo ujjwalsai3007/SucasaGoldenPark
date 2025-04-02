@@ -101,21 +101,31 @@
             android:backgroundTint="@color/black"
             android:text="View Events"
             android:textColor="@android:color/white"
-            android:textStyle="bold" />
-
+            android:textStyle="bold"
+            android:layout_marginBottom="16dp" />
 
         <Button
             android:id="@+id/maintainancebutton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/black"
-            android:text="Update Maintenance
-"
+            android:text="Update Maintenance"
             android:textColor="@android:color/white"
             android:textStyle="bold"
-            android:layout_marginTop="10dp"/>
+            android:layout_marginBottom="16dp"/>
 
-
+        <!-- Logout Button -->
+        <Button
+            android:id="@+id/logoutButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#F44336"
+            android:text="Logout"
+            android:textColor="@android:color/white"
+            android:textStyle="bold"
+            android:drawableStart="@android:drawable/ic_lock_power_off"
+            android:drawablePadding="8dp"
+            android:padding="12dp"/>
 
     </LinearLayout>
 </RelativeLayout>

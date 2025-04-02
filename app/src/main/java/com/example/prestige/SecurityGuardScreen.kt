@@ -2,22 +2,40 @@ package com.example.prestige
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.prestige.databinding.ActivitySecurityGuardScreenBinding
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 
 class SecurityGuardScreen : AppCompatActivity() {
     private lateinit var binding: ActivitySecurityGuardScreenBinding
+    private lateinit var auth: FirebaseAuth
+    private val TAG = "SecurityGuardScreen"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = ActivitySecurityGuardScreenBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        // Initialize Firebase Authentication
+        auth = FirebaseAuth.getInstance()
+        
+        // Check if user is authenticated
+        if (auth.currentUser == null) {
+            Log.e(TAG, "User is not authenticated, redirecting to login")
+            Toast.makeText(this, "Please log in to continue", Toast.LENGTH_SHORT).show()
+            startActivity(Intent(this, SignIn::class.java))
+            finish()
+            return
+        }
+        
+        Log.d(TAG, "User authenticated: ${auth.currentUser?.uid}")
 
         // Firebase references
         val securityGuardReference = FirebaseDatabase.getInstance().getReference("SecurityGuardStatus")
@@ -57,6 +75,19 @@ class SecurityGuardScreen : AppCompatActivity() {
             val intent=Intent(this,UpdateMaintenanceActivity::class.java)
             startActivity(intent)
         }
+
+        // Logout Button
+        binding.logoutButton.setOnClickListener {
+            logoutUser()
+        }
+    }
+
+    private fun logoutUser() {
+        auth.signOut()
+        Log.d(TAG, "User logged out")
+        Toast.makeText(this, "Logged out successfully", Toast.LENGTH_SHORT).show()
+        startActivity(Intent(this, SignIn::class.java))
+        finish()
     }
 
     private fun setupAvailabilitySwitch(databaseReference: DatabaseReference) {
@@ -96,6 +127,17 @@ class SecurityGuardScreen : AppCompatActivity() {
             }.addOnFailureListener {
                 Toast.makeText(this, "Failed to update status", Toast.LENGTH_SHORT).show()
             }
+        }
+    }
+    
+    override fun onResume() {
+        super.onResume()
+        // Check authentication again when screen resumes
+        if (auth.currentUser == null) {
+            Log.e(TAG, "User authentication lost, redirecting to login")
+            Toast.makeText(this, "Session expired. Please log in again", Toast.LENGTH_SHORT).show()
+            startActivity(Intent(this, SignIn::class.java))
+            finish()
         }
     }
 }

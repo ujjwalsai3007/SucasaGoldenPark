@@ -3,6 +3,7 @@ package com.example.prestige
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +11,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 
 class OrdersFragment : Fragment() {
@@ -20,6 +22,8 @@ class OrdersFragment : Fragment() {
     private lateinit var databaseReference: DatabaseReference
     private lateinit var sharedPreferences: SharedPreferences
     private lateinit var houseNumber: String
+    private lateinit var auth: FirebaseAuth
+    private val TAG = "OrdersFragment"
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -27,6 +31,16 @@ class OrdersFragment : Fragment() {
     ): View? {
         // Inflate the layout
         val view = inflater.inflate(R.layout.fragment_orders, container, false)
+
+        // Initialize Authentication
+        auth = FirebaseAuth.getInstance()
+        
+        // Check if user is logged in
+        if (auth.currentUser == null) {
+            Log.e(TAG, "User is not authenticated")
+            Toast.makeText(requireContext(), "Please log in again", Toast.LENGTH_SHORT).show()
+            return view
+        }
 
         // Initialize RecyclerView
         ordersRecyclerView = view.findViewById(R.id.ordersRecyclerView)
@@ -51,7 +65,8 @@ class OrdersFragment : Fragment() {
 
         // Initialize Firebase Database reference
         databaseReference = FirebaseDatabase.getInstance().getReference("Orders")
-
+        Log.d(TAG, "Using authentication token: ${auth.currentUser?.uid}")
+        
         // Fetch orders for the current user's house number
         fetchOrdersForHouse()
 
@@ -59,6 +74,14 @@ class OrdersFragment : Fragment() {
     }
 
     private fun fetchOrdersForHouse() {
+        if (auth.currentUser == null) {
+            Log.e(TAG, "Cannot fetch orders: User not authenticated")
+            Toast.makeText(requireContext(), "Authentication error. Please log in again.", Toast.LENGTH_SHORT).show()
+            return
+        }
+        
+        Log.d(TAG, "Fetching orders for house: $houseNumber with auth: ${auth.currentUser?.uid}")
+        
         databaseReference.orderByChild("houseNumber").equalTo(houseNumber)
             .addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
@@ -69,7 +92,9 @@ class OrdersFragment : Fragment() {
                             order?.let { ordersList.add(it) }
                         }
                         ordersAdapter.notifyDataSetChanged()
+                        Log.d(TAG, "Successfully fetched ${ordersList.size} orders")
                     } else {
+                        Log.d(TAG, "No orders found for house: $houseNumber")
                         Toast.makeText(
                             requireContext(),
                             "No orders found for your house.",
@@ -79,6 +104,7 @@ class OrdersFragment : Fragment() {
                 }
 
                 override fun onCancelled(error: DatabaseError) {
+                    Log.e(TAG, "Failed to fetch orders: ${error.message}")
                     Toast.makeText(
                         requireContext(),
                         "Failed to fetch orders: ${error.message}",

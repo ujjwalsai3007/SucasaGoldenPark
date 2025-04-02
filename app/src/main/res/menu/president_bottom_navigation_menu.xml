@@ -15,11 +15,6 @@
         android:title="Maintenance" />
 
     <item
-        android:id="@+id/nav_president_bills"
-        android:icon="@drawable/ic_bills"
-        android:title="Bills" />
-
-    <item
         android:id="@+id/nav_president_settings"
         android:icon="@drawable/ic_settings"
         android:title="Settings" />
