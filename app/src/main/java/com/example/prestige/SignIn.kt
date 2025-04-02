@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import com.example.prestige.databinding.ActivitySignInBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
@@ -25,6 +26,9 @@ class SignIn : AppCompatActivity() {
         // Initialize Firebase Authentication
         auth = FirebaseAuth.getInstance()
         
+        // Setup drawables
+        setupDrawables()
+
         binding.textViewSignUp.setOnClickListener {
             val intent = Intent(this, SignUp::class.java)
             startActivity(intent)
@@ -133,6 +137,23 @@ class SignIn : AppCompatActivity() {
                 Toast.makeText(this, "Error: ${e.message}", Toast.LENGTH_LONG).show()
                 binding.signInBtn.isEnabled = true
             }
+        }
+    }
+
+    private fun setupDrawables() {
+        val drawables = mapOf(
+            binding.email to R.drawable.email_1_svgrepo_com,
+            binding.password to R.drawable.password_svgrepo_com
+        )
+
+        // Convert dp to pixels - using 16dp for smaller icons
+        val size = (16 * resources.displayMetrics.density).toInt()
+
+        drawables.forEach { (editText, drawableRes) ->
+            val drawable = ContextCompat.getDrawable(this, drawableRes)?.apply {
+                setBounds(0, 0, size, size)
+            }
+            editText.setCompoundDrawables(drawable, null, null, null)
         }
     }
 }

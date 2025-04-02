@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="CustomTextInputEditText" parent="Widget.MaterialComponents.TextInputEditText.OutlinedBox">
+        <item name="android:drawablePadding">12dp</item>
+        <item name="android:drawableTint">@color/primary_gold</item>
+    </style>
+</resources> 
