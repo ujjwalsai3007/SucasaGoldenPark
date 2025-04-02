@@ -39,13 +39,23 @@ class PresidentsSettingsFragment : Fragment() {
     }
     
     private fun logoutUser() {
-        auth.signOut()
-        Toast.makeText(context, "Logged out successfully", Toast.LENGTH_SHORT).show()
-        
-        // Navigate to SignIn Activity
-        val intent = Intent(activity, SignIn::class.java)
-        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
-        startActivity(intent)
-        requireActivity().finish() // Close the current activity
+        try {
+            // Sign out from Firebase
+            auth.signOut()
+            
+            // Show success message
+            Toast.makeText(requireContext(), "Logged out successfully", Toast.LENGTH_SHORT).show()
+            
+            // Create intent for SignIn activity
+            val intent = Intent(requireContext(), SignIn::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            
+            // Start SignIn activity and finish all activities in the stack
+            startActivity(intent)
+            requireActivity().finishAffinity()
+        } catch (e: Exception) {
+            // Handle any potential errors
+            Toast.makeText(requireContext(), "Error during logout: ${e.message}", Toast.LENGTH_SHORT).show()
+        }
     }
 }

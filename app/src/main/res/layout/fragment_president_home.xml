@@ -1,89 +1,191 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background_gradient">
+    android:background="@color/background_cream">
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="16dp"
-        android:layout_marginTop="20dp">
+        android:layout_height="match_parent">
 
-        <!-- Title -->
-        <TextView
-            android:id="@+id/presidentHomeTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="President's Dashboard"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="24dp" />
-
-        <!-- Security Guard Availability -->
-        <TextView
-            android:id="@+id/securityGuardLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Security Guard Availability:"
-            android:textSize="18sp"
-            android:layout_marginBottom="8dp" />
-
-        <TextView
-            android:id="@+id/securityGuardAvailability"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Loading..."
-            android:textSize="16sp"
-            android:layout_marginBottom="16dp" />
-
-        <!-- Apartment Cleaning Status -->
-        <TextView
-            android:id="@+id/apartmentCleaningLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Apartment Cleaning Status:"
-            android:textSize="18sp"
-            android:layout_marginBottom="8dp" />
-
-        <TextView
-            android:id="@+id/apartmentCleaningStatus"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Loading..."
-            android:textSize="16sp"
-            android:layout_marginBottom="16dp" />
-
-        <!-- Orders Button -->
-        <Button
-            android:id="@+id/viewOrdersButton"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="View Orders"
-            android:backgroundTint="@color/black"
-            android:textColor="@android:color/white"
-            android:layout_marginTop="24dp" />
+            android:orientation="vertical"
+            android:padding="24dp">
 
-        <!-- Raise Issue Button -->
-        <Button
-            android:id="@+id/presidentRaiseIssueButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Raise an Issue"
-            android:layout_marginTop="16dp"
-            android:backgroundTint="@color/black"
-            android:textColor="@android:color/white" />
+            <!-- Header -->
+            <TextView
+                android:id="@+id/presidentHomeTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="President's Dashboard"
+                android:textSize="32sp"
+                android:textStyle="bold"
+                android:textColor="@color/text_dark"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="8dp" />
 
-        <!-- View Issues Button -->
-        <Button
-            android:id="@+id/presidentViewIssuesButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="View Issues"
-            android:layout_marginTop="16dp"
-            android:backgroundTint="@color/black"
-            android:textColor="@android:color/white" />
-    </LinearLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Manage your community"
+                android:textSize="16sp"
+                android:textColor="@color/dark_gold"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="32dp" />
+
+            <!-- Status Cards -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="24dp"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="4dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <!-- Security Guard Status -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:layout_marginBottom="16dp">
+
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@drawable/ic_security"
+                            app:tint="@color/primary_gold"
+                            android:layout_marginEnd="16dp"/>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/securityGuardLabel"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Security Guard"
+                                android:textSize="18sp"
+                                android:textStyle="bold"
+                                android:textColor="@color/text_dark"/>
+
+                            <TextView
+                                android:id="@+id/securityGuardAvailability"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Loading..."
+                                android:textSize="14sp"
+                                android:textColor="@color/dark_gold"/>
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/light_gold"
+                        android:layout_marginBottom="16dp"/>
+
+                    <!-- Cleaning Status -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical">
+
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@drawable/ic_cleaning"
+                            app:tint="@color/primary_gold"
+                            android:layout_marginEnd="16dp"/>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/apartmentCleaningLabel"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Cleaning Status"
+                                android:textSize="18sp"
+                                android:textStyle="bold"
+                                android:textColor="@color/text_dark"/>
+
+                            <TextView
+                                android:id="@+id/apartmentCleaningStatus"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Loading..."
+                                android:textSize="14sp"
+                                android:textColor="@color/dark_gold"/>
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Quick Actions -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Quick Actions"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="@color/text_dark"
+                android:layout_marginBottom="16dp"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/viewOrdersButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="View Orders"
+                android:textSize="16sp"
+                android:padding="12dp"
+                android:layout_marginBottom="12dp"
+                app:icon="@drawable/ic_orders"
+                app:iconGravity="textStart"
+                app:iconTint="@color/text_dark"
+                android:backgroundTint="@color/primary_gold"
+                android:textColor="@color/text_dark"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/presidentRaiseIssueButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Raise an Issue"
+                android:textSize="16sp"
+                android:padding="12dp"
+                android:layout_marginBottom="12dp"
+                app:icon="@drawable/ic_add_issue"
+                app:iconGravity="textStart"
+                app:iconTint="@color/text_dark"
+                android:backgroundTint="@color/primary_gold"
+                android:textColor="@color/text_dark"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/presidentViewIssuesButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="View Issues"
+                android:textSize="16sp"
+                android:padding="12dp"
+                app:icon="@drawable/ic_view_issues"
+                app:iconGravity="textStart"
+                app:iconTint="@color/text_dark"
+                android:backgroundTint="@color/primary_gold"
+                android:textColor="@color/text_dark"/>
+
+        </LinearLayout>
+    </ScrollView>
 </RelativeLayout>

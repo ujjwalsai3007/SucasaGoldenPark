@@ -4,8 +4,10 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.InputFilter
 import android.util.Log
+import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import com.example.prestige.databinding.ActivitySignUpBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
@@ -23,6 +25,9 @@ class SignUp : AppCompatActivity() {
         binding = ActivitySignUpBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        // Resize drawables
+        setupDrawables()
+
         // Initialize Firebase Authentication
         auth = FirebaseAuth.getInstance()
 
@@ -35,15 +40,26 @@ class SignUp : AppCompatActivity() {
             Toast.makeText(this, "Error connecting to database", Toast.LENGTH_SHORT).show()
         }
 
+        // Set up the role spinner
+        val roles = arrayOf("Resident", "President", "Security Guard")
+        val adapter = ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, roles)
+        binding.roleSpinner.setAdapter(adapter)
+        binding.roleSpinner.setText(roles[0], false) // Set default selection to "Resident"
+
         binding.signup.setOnClickListener {
             val name = binding.name.text.toString().trim()
             val email = binding.email.text.toString().trim()
             val password = binding.password.text.toString().trim()
             val houseNumber = binding.houseNumber.text.toString().trim()
-            val role = binding.roleSpinner.selectedItem.toString()
+            val role = binding.roleSpinner.text.toString()
 
-            if (name.isEmpty() || email.isEmpty() || password.isEmpty() || houseNumber.isEmpty()) {
+            if (name.isEmpty() || email.isEmpty() || password.isEmpty() || houseNumber.isEmpty() || role.isEmpty()) {
                 Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            if (!roles.contains(role)) {
+                Toast.makeText(this, "Please select a valid role", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
@@ -76,6 +92,7 @@ class SignUp : AppCompatActivity() {
                                     binding.email.text?.clear()
                                     binding.password.text?.clear()
                                     binding.houseNumber.text?.clear()
+                                    binding.roleSpinner.setText(roles[0], false)
                                     
                                     // Navigate to sign in screen
                                     startActivity(Intent(this, SignIn::class.java))
@@ -103,6 +120,25 @@ class SignUp : AppCompatActivity() {
         binding.textViewAlready.setOnClickListener {
             startActivity(Intent(this, SignIn::class.java))
             finish()
+        }
+    }
+
+    private fun setupDrawables() {
+        val drawables = mapOf(
+            binding.name to R.drawable.user_svgrepo_com,
+            binding.email to R.drawable.email_1_svgrepo_com,
+            binding.password to R.drawable.password_svgrepo_com,
+            binding.houseNumber to R.drawable.home_svgrepo_com
+        )
+
+        // Convert dp to pixels - using 16dp for smaller icons
+        val size = (16 * resources.displayMetrics.density).toInt() // 16dp converted to pixels
+
+        drawables.forEach { (editText, drawableRes) ->
+            val drawable = ContextCompat.getDrawable(this, drawableRes)?.apply {
+                setBounds(0, 0, size, size)
+            }
+            editText.setCompoundDrawables(drawable, null, null, null)
         }
     }
 }
