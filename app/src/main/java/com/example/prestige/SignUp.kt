@@ -40,7 +40,7 @@ class SignUp : AppCompatActivity() {
             val email = binding.email.text.toString().trim()
             val password = binding.password.text.toString().trim()
             val houseNumber = binding.houseNumber.text.toString().trim()
-            val role = binding.spinner.selectedItem.toString()
+            val role = binding.roleSpinner.selectedItem.toString()
 
             if (name.isEmpty() || email.isEmpty() || password.isEmpty() || houseNumber.isEmpty()) {
                 Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show()
