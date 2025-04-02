@@ -11,6 +11,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 
 class SignIn : AppCompatActivity() {
+
     private lateinit var binding: ActivitySignInBinding
     private lateinit var sharedPreferences: SharedPreferences
     private lateinit var auth: FirebaseAuth
@@ -23,6 +24,11 @@ class SignIn : AppCompatActivity() {
 
         // Initialize Firebase Authentication
         auth = FirebaseAuth.getInstance()
+        
+        binding.textViewSignUp.setOnClickListener {
+            val intent = Intent(this, SignUp::class.java)
+            startActivity(intent)
+        }
 
         sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE)
 
@@ -34,11 +40,6 @@ class SignIn : AppCompatActivity() {
             binding.email.setText(savedEmail)
             binding.password.setText(savedPassword)
             binding.rememberMe.isChecked = true
-        }
-
-        // Set up sign up link click listener
-        binding.signUpLink.setOnClickListener {
-            startActivity(Intent(this, SignUp::class.java))
         }
 
         binding.signInBtn.setOnClickListener {

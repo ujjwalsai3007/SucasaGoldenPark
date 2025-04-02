@@ -18,7 +18,10 @@ class ViewIssuesActivity : AppCompatActivity() {
         setContentView(R.layout.activity_view_issues)
 
         issuesRecyclerView = findViewById(R.id.issuesRecyclerView)
-        issuesRecyclerView.layoutManager = LinearLayoutManager(this)
+        issuesRecyclerView.layoutManager = LinearLayoutManager(this).apply {
+            reverseLayout = false
+            stackFromEnd = false
+        }
 
         val adapter = IssuesAdapter(issuesList)
         issuesRecyclerView.adapter = adapter
@@ -33,6 +36,15 @@ class ViewIssuesActivity : AppCompatActivity() {
                         issuesList.add(issue)
                     }
                 }
+                // Debug: Check the data order
+                println("Issues Before Reverse: $issuesList")
+
+                // Reverse the list for latest issues first
+                issuesList.reverse()
+
+                // Debug: Verify the reversed data
+                println("Issues After Reverse: $issuesList")
+
                 adapter.notifyDataSetChanged()
             }
 

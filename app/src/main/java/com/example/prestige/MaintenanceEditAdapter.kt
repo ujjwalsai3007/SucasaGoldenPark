@@ -26,12 +26,13 @@ class MaintenanceEditAdapter(
 
     override fun onBindViewHolder(holder: MaintenanceViewHolder, position: Int) {
         val house = houseList[position]
-        holder.houseNumberTextView.text = house.houseNumber
-        holder.statusEditText.setText(house.status)
+        holder.houseNumberTextView.text = house.houseNumber ?: "Unknown"
+        holder.statusEditText.setText(house.status ?: "")
 
         holder.saveButton.setOnClickListener {
             val status = holder.statusEditText.text.toString().trim()
-            onSaveClick(house.houseNumber, status)
+            val houseNumber = house.houseNumber ?: return@setOnClickListener
+            onSaveClick(houseNumber, status)
         }
     }
 

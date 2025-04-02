@@ -98,34 +98,34 @@
             android:id="@+id/viewEventsButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/black"
+            android:layout_marginBottom="16dp"
             android:text="View Events"
+            android:backgroundTint="@color/black"
+            android:textColor="@android:color/white"
+            android:textStyle="bold" />
+
+        <!-- Button for Updating Maintenance -->
+        <Button
+            android:id="@+id/updateMaintenanceButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Update Maintenance"
+            android:backgroundTint="@color/black"
             android:textColor="@android:color/white"
             android:textStyle="bold"
             android:layout_marginBottom="16dp" />
 
+        <!-- Button for Logout -->
         <Button
-            android:id="@+id/maintainancebutton"
+            android:id="@+id/logoutOption"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/black"
-            android:text="Update Maintenance"
-            android:textColor="@android:color/white"
-            android:textStyle="bold"
-            android:layout_marginBottom="16dp"/>
-
-        <!-- Logout Button -->
-        <Button
-            android:id="@+id/logoutButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:backgroundTint="#F44336"
             android:text="Logout"
+            android:backgroundTint="#F44336"
             android:textColor="@android:color/white"
             android:textStyle="bold"
             android:drawableStart="@android:drawable/ic_lock_power_off"
             android:drawablePadding="8dp"
-            android:padding="12dp"/>
-
+            android:padding="12dp" />
     </LinearLayout>
 </RelativeLayout>

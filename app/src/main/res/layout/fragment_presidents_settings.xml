@@ -6,6 +6,7 @@
     android:orientation="vertical"
     android:gravity="center"
     android:padding="16dp"
+    android:background="@drawable/background_gradient"
     tools:context=".PresidentsSettingsFragment">
 
     <TextView

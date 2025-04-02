@@ -5,14 +5,13 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.prestige.databinding.ActivitySecurityGuardScreenBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 
 class SecurityGuardScreen : AppCompatActivity() {
+
     private lateinit var binding: ActivitySecurityGuardScreenBinding
     private lateinit var auth: FirebaseAuth
     private val TAG = "SecurityGuardScreen"
@@ -41,10 +40,10 @@ class SecurityGuardScreen : AppCompatActivity() {
         val securityGuardReference = FirebaseDatabase.getInstance().getReference("SecurityGuardStatus")
         val cleaningStatusReference = FirebaseDatabase.getInstance().getReference("ApartmentCleaningStatus")
 
-        // Handle Security Guard Availability Switch
-        setupAvailabilitySwitch(securityGuardReference)
+        // Set up the Security Guard Availability Switch
+        setupSecurityGuardSwitch(securityGuardReference)
 
-        // Handle Apartment Cleaning Status Switch
+        // Set up the Apartment Cleaning Status Switch
         setupCleaningStatusSwitch(cleaningStatusReference)
 
         // Add Order Button
@@ -71,14 +70,59 @@ class SecurityGuardScreen : AppCompatActivity() {
             startActivity(intent)
         }
 
-        binding.maintainancebutton.setOnClickListener {
-            val intent=Intent(this,UpdateMaintenanceActivity::class.java)
+        // Update Maintenance Button
+        binding.updateMaintenanceButton.setOnClickListener {
+            val intent = Intent(this, UpdateMaintenanceActivity::class.java)
             startActivity(intent)
         }
 
         // Logout Button
-        binding.logoutButton.setOnClickListener {
+        binding.logoutOption.setOnClickListener {
             logoutUser()
+        }
+    }
+
+    private fun setupSecurityGuardSwitch(databaseReference: DatabaseReference) {
+        val switch = binding.availabilitySwitch
+
+        // Get initial status
+        databaseReference.child("isAvailable").get().addOnSuccessListener { snapshot ->
+            val isAvailable = snapshot.getValue(Boolean::class.java) ?: false
+            switch.isChecked = isAvailable
+        }
+
+        // Update status on change
+        switch.setOnCheckedChangeListener { _, isChecked ->
+            databaseReference.child("isAvailable").setValue(isChecked)
+                .addOnSuccessListener {
+                    val message = if (isChecked) "Marked as Available" else "Marked as Unavailable"
+                    Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+                }
+                .addOnFailureListener {
+                    Toast.makeText(this, "Failed to update status", Toast.LENGTH_SHORT).show()
+                }
+        }
+    }
+
+    private fun setupCleaningStatusSwitch(databaseReference: DatabaseReference) {
+        val switch = binding.availabilitySwitch1
+
+        // Get initial status
+        databaseReference.child("isCleaned").get().addOnSuccessListener { snapshot ->
+            val isCleaned = snapshot.getValue(Boolean::class.java) ?: false
+            switch.isChecked = isCleaned
+        }
+
+        // Update status on change
+        switch.setOnCheckedChangeListener { _, isChecked ->
+            databaseReference.child("isCleaned").setValue(isChecked)
+                .addOnSuccessListener {
+                    val message = if (isChecked) "Marked as Cleaned" else "Marked as Uncleaned"
+                    Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+                }
+                .addOnFailureListener {
+                    Toast.makeText(this, "Failed to update status", Toast.LENGTH_SHORT).show()
+                }
         }
     }
 
@@ -86,48 +130,10 @@ class SecurityGuardScreen : AppCompatActivity() {
         auth.signOut()
         Log.d(TAG, "User logged out")
         Toast.makeText(this, "Logged out successfully", Toast.LENGTH_SHORT).show()
-        startActivity(Intent(this, SignIn::class.java))
+        val intent = Intent(this, SignIn::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
+        startActivity(intent)
         finish()
-    }
-
-    private fun setupAvailabilitySwitch(databaseReference: DatabaseReference) {
-        val switch = binding.availabilitySwitch
-
-        // Fetch initial availability status
-        databaseReference.child("isAvailable").get().addOnSuccessListener { snapshot ->
-            val isAvailable = snapshot.getValue(Boolean::class.java) ?: false
-            switch.isChecked = isAvailable
-        }
-
-        // Update availability status on change
-        switch.setOnCheckedChangeListener { _, isChecked ->
-            databaseReference.child("isAvailable").setValue(isChecked).addOnSuccessListener {
-                val message = if (isChecked) "Marked as Available" else "Marked as Unavailable"
-                Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
-            }.addOnFailureListener {
-                Toast.makeText(this, "Failed to update status", Toast.LENGTH_SHORT).show()
-            }
-        }
-    }
-
-    private fun setupCleaningStatusSwitch(databaseReference: DatabaseReference) {
-        val switch = binding.availabilitySwitch1
-
-        // Fetch initial cleaning status
-        databaseReference.child("isCleaned").get().addOnSuccessListener { snapshot ->
-            val isCleaned = snapshot.getValue(Boolean::class.java) ?: false
-            switch.isChecked = isCleaned
-        }
-
-        // Update cleaning status on change
-        switch.setOnCheckedChangeListener { _, isChecked ->
-            databaseReference.child("isCleaned").setValue(isChecked).addOnSuccessListener {
-                val message = if (isChecked) "Marked as Cleaned" else "Marked as Uncleaned"
-                Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
-            }.addOnFailureListener {
-                Toast.makeText(this, "Failed to update status", Toast.LENGTH_SHORT).show()
-            }
-        }
     }
     
     override fun onResume() {

@@ -38,6 +38,7 @@ class IssuesFragment : Fragment() {
                         issuesList.add(issue)
                     }
                 }
+                issuesList.reverse()
                 adapter.notifyDataSetChanged()
             }
 

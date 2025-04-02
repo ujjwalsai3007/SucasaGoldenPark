@@ -40,10 +40,10 @@ class SignUp : AppCompatActivity() {
             val email = binding.email.text.toString().trim()
             val password = binding.password.text.toString().trim()
             val houseNumber = binding.houseNumber.text.toString().trim()
-            val role = binding.roleSpinner.selectedItem.toString()
+            val role = binding.spinner.selectedItem.toString()
 
-            if (name.isEmpty() || email.isEmpty() || password.isEmpty() || houseNumber.isEmpty() || role == "Select Role") {
-                Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show()
+            if (name.isEmpty() || email.isEmpty() || password.isEmpty() || houseNumber.isEmpty()) {
+                Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
@@ -61,11 +61,16 @@ class SignUp : AppCompatActivity() {
                             
                             // Now store the user data in the Realtime Database
                             val user = User(name, email, password, houseNumber, role, uid)
-                            val emailKey = email.replace(".", ",")
                             
+                            // Save by both email key and UID for flexibility
+                            val emailKey = email.replace(".", ",")
                             databaseReference.child(emailKey).setValue(user)
                                 .addOnSuccessListener {
                                     Log.d(TAG, "User data stored in Realtime Database successfully")
+                                    
+                                    // Also save under UID reference
+                                    databaseReference.child(uid).setValue(user)
+                                    
                                     Toast.makeText(this, "User Registered Successfully", Toast.LENGTH_SHORT).show()
                                     binding.name.text?.clear()
                                     binding.email.text?.clear()
@@ -97,6 +102,7 @@ class SignUp : AppCompatActivity() {
 
         binding.textViewAlready.setOnClickListener {
             startActivity(Intent(this, SignIn::class.java))
+            finish()
         }
     }
 }
